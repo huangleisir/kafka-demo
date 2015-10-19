@@ -5,14 +5,23 @@ body {
     font-family: Arial,Helvetica,sans-serif;
 }
 
-.content h2 {
-    margin-left: -16px;
+.app-title {
+    float: right;
+    margin: 0 0 20px 10px;
 }
 
-.callout {
-    padding: 20px;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-    cursor: pointer;
+.uplink-input {
+    padding: 10px 10px 30px 10px;
+    margin: 10px;
+}
+
+.message-output {
+    padding: 10px;
+    margin: 10px;
+}
+
+.panel-body {
+    height: 300px;
+    overflow-y: scroll;
+    width: 100%;
 }
