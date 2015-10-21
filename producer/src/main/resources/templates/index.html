@@ -23,39 +23,25 @@
                                 <form role="form">
                                     <div class="form-group">
                                         <label for="uplinkMessage">Uplink Message</label>
-                                        <input type="uplinkMessage" class="form-control" id="uplinkMessage" />
+                                        <input type="uplinkMessage" class="form-control" id="uplinkMessage" ng-model="main.uplinkMessage"/>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                                    <!--<button type="submit" class="btn btn-primary">Send</button>-->
+                                    <a class="btn btn-primary" ng-click="main.sendMessage()">
+                                        <span>Send</span>
+                                    </a>
                                 </form>
                             </div>
                         </div>
-                        <div class=" message-output row">
+                        <div class="message-output row">
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Uplink Messages</h3>
                                     </div>
                                     <div class="panel-body uplink-messages">
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
-                                        <p>Text Box for Uplink Messages</p>
+                                        <div ng-repeat="message in main.uplinkMessages">
+                                            <p>{{message.body}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +51,6 @@
                                         <h3 class="panel-title">Downlink Messages</h3>
                                     </div>
                                     <div class="panel-body downlink-messages">
-                                        <p>Text Box for Downlink Messages</p>
                                     </div>
                                 </div>
                             </div>
