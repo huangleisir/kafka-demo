@@ -1,0 +1,25 @@
+zookeeper:
+  image: javabilities/docker-zookeeper
+  name: zookeeper
+  hostname: zookeeper
+  ports:
+    - "2181:2181"
+kafka:
+  image: javabilities/docker-kafka
+  name: kafka
+  hostname: kafka
+  ports:
+    - "9092:9092"
+  environment:
+    ADVERTISED_HOST_NAME: "kafka"
+    ZOOKEEPER_CONNECT: "zookeeper:2181"
+  links:
+    - zookeeper
+producer:
+  build: ./producer
+  ports:
+    - "8100:8100"
+consumer:
+    build: ./consumer
+    ports:
+      - "8200:8200"
