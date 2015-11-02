@@ -13,8 +13,8 @@ public class KafkaProperties {
     private String clientId;
     private String serializerClass;
     private String partitionerClass;
-    private int requestRequiredAcks;
-    private int numPartitions ;
+    private String requestRequiredAcks;
+    private int numPartitions;
     private int replicationFactor;
 
     public String getHost() {
@@ -73,11 +73,11 @@ public class KafkaProperties {
         this.partitionerClass = partitionerClass;
     }
 
-    public int getRequestRequiredAcks() {
+    public String getRequestRequiredAcks() {
         return requestRequiredAcks;
     }
 
-    public void setRequestRequiredAcks(int requestRequiredAcks) {
+    public void setRequestRequiredAcks(String requestRequiredAcks) {
         this.requestRequiredAcks = requestRequiredAcks;
     }
 
