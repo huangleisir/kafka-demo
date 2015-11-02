@@ -3,13 +3,13 @@ spring:
     cache: true
 
 zookeeper:
-  host: localhost
+  host: zookeeper
   port: 2181
   sessionTimeoutMs: 10000
   connectionTimeoutMs: 10000
 
 kafka:
-  host: localhost
+  host: kafka
   port: 9092
   soTimeout: 100000
   bufferSize: 65536
