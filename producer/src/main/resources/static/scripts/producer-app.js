@@ -2,7 +2,6 @@ var producerModule = angular.module('Producer', ['ui.bootstrap']);
 
 producerModule.factory('ProducerHelper', function() {
     var buildIndex = function (source, property) {
-        console.log('here');
         var tempArray = [];
 
         for (var i = 0, len = source.length; i < len; ++i) {
@@ -35,7 +34,7 @@ producerModule.service('ProducerModel', function() {
     };
 });
 
-producerModule.controller('MainCtrl', function(ProducerModel, ProducerHelper) {
+producerModule.controller('MainCtrl', function(ProducerModel, ProducerHelper, $http) {
     var main = this;
 
     main.uplinkMessages = ProducerModel.getUplinkMessages();
@@ -49,6 +48,8 @@ producerModule.controller('MainCtrl', function(ProducerModel, ProducerHelper) {
     };
 
     main.sendMessage = function() {
+        console.log('sendMessage');
+        $http.post('/rest/api/v1/messages', {topic:'test', message:main.uplinkMessage});
         main.uplinkMessages.push({
             body: main.uplinkMessage
         });
