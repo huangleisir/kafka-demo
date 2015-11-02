@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/rest/api/1")
+@RequestMapping("/rest/api/v1")
 public class MessageResource {
     private final Logger log = LoggerFactory.getLogger(MessageResource.class);
 
@@ -45,6 +45,7 @@ public class MessageResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> createTopic(@RequestParam(value="topic") String topic) {
+        log.debug("REST request to create a Topic");
         messageService.createTopic(topic);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("topic", topic);
@@ -58,6 +59,7 @@ public class MessageResource {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> sendMessage(@RequestParam(value="topic") String topic, @RequestParam(value="message") String message) {
+        log.debug("REST request to send a Message to a Topic");
         messageService.sendMessage(topic, message);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("status", "success");
