@@ -20,4 +20,4 @@ RUN mkdir -p /app/kafka-demo && \
 EXPOSE 8100
 
 # Execute the application
-CMD ["java", "-jar", "/app/kafka-demo/producer/target/producer-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
+CMD ["java", "-jar", "/app/kafka-demo/producer/target/producer-0.0.1-SNAPSHOT.jar", "-Dspring.profiles.active=prod"]

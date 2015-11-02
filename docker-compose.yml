@@ -5,6 +5,7 @@ zookeeper:
     - "2181:2181"
     - "2888:2888"
     - "3888:3888"
+
 kafka:
   image: javabilities/docker-kafka
   name: kafka
@@ -15,19 +16,37 @@ kafka:
     ZOOKEEPER_CONNECT: "zookeeper:2181"
   links:
     - zookeeper
+
 producer:
   build: producer
   name: producer
   ports:
     - "8100:8100"
+  environment:
+    ZOOKEEPER_HOST: "zookeeper"
+    ZOOKEEPER_PORT: "2181"
+    KAFKA_HOST: "kafka"
+    KAFKA_PORT: "9092"
+    SO_TIMEOUT: "100000"
+    BUFFER_SIZE: "65536"
+    CLIENT_ID: "producer"
   links:
     - zookeeper
     - kafka
+    
 consumer:
   build: consumer
   name: consumer
   ports:
     - "8200:8200"
+  environment:
+    ZOOKEEPER_HOST: "zookeeper"
+    ZOOKEEPER_PORT: "2181"
+    KAFKA_HOST: "kafka"
+    KAFKA_PORT: "9092"
+    SO_TIMEOUT: "100000"
+    BUFFER_SIZE: "65536"
+    CLIENT_ID: "producer"
   links:
     - zookeeper
     - kafka
