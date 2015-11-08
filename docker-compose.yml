@@ -1,25 +1,26 @@
 zookeeper:
   image: javabilities/docker-zookeeper
-  name: zookeeper
+  container_name: zookeeper
   ports:
     - "2181:2181"
     - "2888:2888"
     - "3888:3888"
+  environment:
+    ZOO_LOG_DIR: "/data/zookeeper/logs"
 
 kafka:
   image: javabilities/docker-kafka
-  name: kafka
+  container_name: kafka
   ports:
     - "9092:9092"
   environment:
+    HOST_NAME: "kafka"
     ADVERTISED_HOST_NAME: "kafka"
     ZOOKEEPER_CONNECT: "zookeeper:2181"
-  links:
-    - zookeeper
 
 producer:
   build: producer
-  name: producer
+  container_name: producer
   ports:
     - "8100:8100"
   environment:
@@ -30,13 +31,10 @@ producer:
     SO_TIMEOUT: "100000"
     BUFFER_SIZE: "65536"
     CLIENT_ID: "producer"
-  links:
-    - zookeeper
-    - kafka
-    
+
 consumer:
   build: consumer
-  name: consumer
+  container_name: consumer
   ports:
     - "8200:8200"
   environment:
@@ -46,7 +44,4 @@ consumer:
     KAFKA_PORT: "9092"
     SO_TIMEOUT: "100000"
     BUFFER_SIZE: "65536"
-    CLIENT_ID: "producer"
-  links:
-    - zookeeper
-    - kafka
+    CLIENT_ID: "consumer"
