@@ -8,6 +8,10 @@ else
     topic=$1
 fi
 
-curl -d topic="$topic" -X POST http://localhost:8100/rest/api/v1/topics
+curl -X POST \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/json" \
+     -d '{"topic":"'$topic'"}' \
+     http://localhost:8100/rest/api/v1/topics
 
 echo

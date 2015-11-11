@@ -6,12 +6,13 @@ if [[ $# < 2 ]]; then
     exit -1
 else
     topic=$1
-    message=$2
+    message="${*:2}"
 fi
 
-echo $topic
-echo $message
-
-curl -X POST -d topic="$topic" -d message="$message" http://localhost:8100/rest/api/v1/messages
+curl -X POST \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/json" \
+     -d '{"topic":"'$topic'","message":"'$message'"}' \
+     http://localhost:8100/rest/api/v1/messages
 
 echo
