@@ -1,5 +1,7 @@
-package com.javabilities.producer;
+package com.javabilities.producer.service;
 
+import com.javabilities.producer.config.KafkaProperties;
+import com.javabilities.producer.config.ZookeeperProperties;
 import kafka.admin.AdminUtils;
 import kafka.javaapi.TopicMetadata;
 import kafka.javaapi.TopicMetadataRequest;

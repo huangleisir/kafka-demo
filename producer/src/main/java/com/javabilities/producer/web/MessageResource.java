@@ -1,14 +1,14 @@
-package com.javabilities.producer;
+package com.javabilities.producer.web;
 
+import com.javabilities.producer.domain.MessagePayload;
+import com.javabilities.producer.domain.TopicPayload;
+import com.javabilities.producer.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/rest/api/v1")
 public class MessageResource {
-    private final Logger log = LoggerFactory.getLogger(MessageResource.class);
+    private final Logger logger = LoggerFactory.getLogger(MessageResource.class);
 
     @Inject
     private MessageService messageService;
@@ -30,7 +30,7 @@ public class MessageResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, List<String>>> listTopics() {
-        log.debug("REST request to get all Topics");
+        logger.info("REST request to get all Topics");
         List<String> topics = messageService.listTopics();
         HttpStatus status = topics != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         HashMap<String, List<String>> topicJson = new HashMap<>();
@@ -43,9 +43,11 @@ public class MessageResource {
      */
     @RequestMapping(value = "/topics",
             method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> createTopic(@RequestParam(value="topic") String topic) {
-        log.debug("REST request to create a Topic");
+    public ResponseEntity<Map<String, String>> createTopic(@RequestBody TopicPayload topicPayload) {
+        String topic = topicPayload.getTopic();
+        logger.info("REST request to create a Topic: {}", topic);
         messageService.createTopic(topic);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("topic", topic);
@@ -57,9 +59,12 @@ public class MessageResource {
      */
     @RequestMapping(value = "/messages",
             method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> sendMessage(@RequestParam(value="topic") String topic, @RequestParam(value="message") String message) {
-        log.debug("REST request to send a Message to a Topic");
+    public ResponseEntity<Map<String, String>> sendMessage(@RequestBody MessagePayload messagePayload) {
+        String topic = messagePayload.getTopic();
+        String message = messagePayload.getMessage();
+        logger.info("REST request to send a Message {} to a Topic {}", message, topic);
         messageService.sendMessage(topic, message);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("status", "success");

@@ -15,7 +15,11 @@ kafka:
   bufferSize: 65536
   clientId: producer
   serializerClass: kafka.serializer.StringEncoder
-  partitionerClass: com.javabilities.producer.SimplePartitioner
+  partitionerClass: com.javabilities.producer.service.SimplePartitioner
   requestRequiredAcks: 1
   numPartitions: 1
   replicationFactor: 1
+
+producer:
+  topic: test
+  messageKey: key
