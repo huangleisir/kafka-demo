@@ -1,4 +1,4 @@
-package com.javabilities.producer;
+package com.javabilities.producer.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
