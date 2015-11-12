@@ -7,23 +7,21 @@ import kafka.javaapi.TopicMetadata;
 import kafka.javaapi.TopicMetadataRequest;
 import kafka.javaapi.TopicMetadataResponse;
 import kafka.javaapi.consumer.SimpleConsumer;
-import kafka.javaapi.producer.Producer;
-import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
 import kafka.utils.ZKStringSerializer$;
 import org.I0Itec.zkclient.ZkClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 public class MessageService {
-    private final Logger log = LoggerFactory.getLogger(MessageService.class);
+    private final Logger logger = LoggerFactory.getLogger(MessageService.class);
 
     @Inject
     private ZookeeperProperties zookeeperProperties;
@@ -31,8 +29,11 @@ public class MessageService {
     @Inject
     private KafkaProperties kafkaProperties;
 
+    @Inject
+    ConfigurableApplicationContext context;
+
     public List<String> listTopics() {
-        log.debug("List Topics");
+        logger.debug("List Topics");
         SimpleConsumer consumer = new SimpleConsumer(kafkaProperties.getHost(),
                                                      kafkaProperties.getPort(),
                                                      kafkaProperties.getSoTimeout(),
@@ -47,12 +48,12 @@ public class MessageService {
             topics.add(item.topic());
         }
 
-        log.debug("Found {} Topics", topics.size());
+        logger.debug("Found {} Topics", topics.size());
         return topics;
     }
 
     public boolean doesTopicExist(String topic) {
-        log.debug("Does Topic {} exist?", topic);
+        logger.debug("Does Topic {} exist?", topic);
         SimpleConsumer consumer = new SimpleConsumer(kafkaProperties.getHost(),
                                                      kafkaProperties.getPort(),
                                                      kafkaProperties.getSoTimeout(),
@@ -65,18 +66,18 @@ public class MessageService {
 
         for (TopicMetadata item : metadata) {
             if (item.topic().equals(topic)) {
-                log.debug("Found Topic {}.", topic);
+                logger.debug("Found Topic {}.", topic);
                 return true;
             }
         }
-        log.debug("Did not find Topic {}.", topic);
+        logger.debug("Did not find Topic {}.", topic);
         return false;
     }
 
     public void createTopic(String topic) {
-        log.debug("Create Topic {}.", topic);
+        logger.debug("Create Topic {}.", topic);
         if (doesTopicExist(topic)) {
-            log.debug("Topic %s already exists.", topic);
+            logger.debug("Topic %s already exists.", topic);
             return;
         }
         // Create a ZooKeeper client
@@ -88,24 +89,16 @@ public class MessageService {
         // Create the topic
         Properties topicConfig = new Properties();
         AdminUtils.createTopic(zkClient, topic, kafkaProperties.getNumPartitions(), kafkaProperties.getReplicationFactor(), topicConfig);
-        log.debug("Topic {} is created.", topic);
+        logger.debug("Topic {} is created.", topic);
     }
 
     public void sendMessage(String topic, String message) {
         if (!doesTopicExist(topic)) {
-            log.debug("Cannot send message {}. Topic {} does not exist!", message, topic);
+            logger.debug("Cannot send message {}. Topic {} does not exist!", message, topic);
             return;
         }
 
-        Properties properties = new Properties();
-        properties.put("metadata.broker.list", kafkaProperties.getHost() + ":" + kafkaProperties.getPort());
-        properties.put("serializer.class", kafkaProperties.getSerializerClass());
-        properties.put("partitioner.class", kafkaProperties.getPartitionerClass());
-        properties.put("request.required.acks", kafkaProperties.getRequestRequiredAcks());
-        ProducerConfig config = new ProducerConfig(properties);
-        Producer<String, String> producer = new Producer<>(config);
-        KeyedMessage<String, String> data = new KeyedMessage<>(topic, message);
-        producer.send(data);
-        producer.close();
+        MessageChannel channel = context.getBean(topic, MessageChannel.class);
+        channel.send(new GenericMessage<>(message));
     }
 }
