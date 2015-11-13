@@ -80,19 +80,11 @@ public class KafkaConfig {
                 String.class, new StringSerializer(), new StringSerializer());
         Properties props = new Properties();
         props.put("linger.ms", "1000");
-        ProducerFactoryBean<String, String> producer = new ProducerFactoryBean<>(producerMetadata, getBrokerAddress(), props);
+        ProducerFactoryBean<String, String> producer = new ProducerFactoryBean<>(producerMetadata, kafkaProperties.getBrokerAddress(), props);
         ProducerConfiguration<String, String> config = new ProducerConfiguration<>(producerMetadata, producer.getObject());
         Map<String, ProducerConfiguration<?, ?>> producerConfigurationMap =
                 Collections.<String, ProducerConfiguration<?, ?>>singletonMap(topic, config);
         kafkaProducerContext.setProducerConfigurations(producerConfigurationMap);
         return kafkaProducerContext;
-    }
-
-    public String getBrokerAddress() {
-        return kafkaProperties.getHost() + ":" + kafkaProperties.getPort();
-    }
-
-    public String getZookeeperConnect() {
-        return zookeeperProperties.getHost() + ":" + zookeeperProperties.getPort();
     }
 }

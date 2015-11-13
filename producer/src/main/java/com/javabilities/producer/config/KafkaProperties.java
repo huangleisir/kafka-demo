@@ -96,4 +96,8 @@ public class KafkaProperties {
     public void setReplicationFactor(int replicationFactor) {
         this.replicationFactor = replicationFactor;
     }
+
+    public String getBrokerAddress() {
+        return host + ":" + port;
+    }
 }
