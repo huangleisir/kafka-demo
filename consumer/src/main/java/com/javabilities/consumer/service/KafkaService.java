@@ -1,7 +1,7 @@
-package com.javabilities.producer.service;
+package com.javabilities.consumer.service;
 
-import com.javabilities.producer.config.KafkaProperties;
-import com.javabilities.producer.config.ZookeeperProperties;
+import com.javabilities.consumer.config.KafkaProperties;
+import com.javabilities.consumer.config.ZookeeperProperties;
 import kafka.admin.AdminUtils;
 import kafka.common.TopicExistsException;
 import kafka.utils.ZKStringSerializer$;
@@ -60,7 +60,7 @@ public class KafkaService {
     }
 
     @Bean
-    public org.springframework.integration.kafka.core.Configuration kafkaConfiguration() {
+    public Configuration kafkaConfiguration() {
         BrokerAddressListConfiguration configuration = new BrokerAddressListConfiguration(
                 BrokerAddress.fromAddress(getBrokerAddress()));
         configuration.setSocketTimeout(500);
