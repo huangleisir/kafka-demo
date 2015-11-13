@@ -1,6 +1,6 @@
 package com.javabilities.producer.web;
 
-import com.javabilities.producer.service.MessageService;
+import com.javabilities.producer.service.KafkaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,17 +19,17 @@ public class ProducerController {
     ConfigurableApplicationContext context;
 
     @Inject
-    MessageService messageService;
+    KafkaService kafkaService;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home() {
         logger.info("Home Controller");
 
-        messageService.sendMessage("test", "test message");
-        messageService.sendMessage("signalMetadata-ingest", "SignalMetadata message");
-        messageService.sendMessage("gatewayStatusMessage-ingest", "GatewayStatusMessage message");
-        messageService.sendMessage("uplinkPayloadMetadata-ingest", "UplinkPayloadMetadata message");
-        messageService.sendMessage("downlink", "Downlink message");
+        kafkaService.sendMessage("test", "test message");
+        kafkaService.sendMessage("signalMetadata-ingest", "SignalMetadata message");
+        kafkaService.sendMessage("gatewayStatusMessage-ingest", "GatewayStatusMessage message");
+        kafkaService.sendMessage("uplinkPayloadMetadata-ingest", "UplinkPayloadMetadata message");
+        kafkaService.sendMessage("downlink", "Downlink message");
 
         return "index";
     }

@@ -2,7 +2,7 @@ package com.javabilities.producer.web;
 
 import com.javabilities.producer.domain.MessagePayload;
 import com.javabilities.producer.domain.TopicPayload;
-import com.javabilities.producer.service.MessageService;
+import com.javabilities.producer.service.KafkaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/rest/api/v1")
-public class MessageResource {
-    private final Logger logger = LoggerFactory.getLogger(MessageResource.class);
+public class RestResource {
+    private final Logger logger = LoggerFactory.getLogger(RestResource.class);
 
     @Inject
-    private MessageService messageService;
+    private KafkaService kafkaService;
 
     /**
      * GET  /topics -> get all topics.
@@ -31,7 +31,7 @@ public class MessageResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, List<String>>> listTopics() {
         logger.info("REST request to get all Topics");
-        List<String> topics = messageService.listTopics();
+        List<String> topics = kafkaService.listTopics();
         HttpStatus status = topics != null ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         HashMap<String, List<String>> topicJson = new HashMap<>();
         topicJson.put("topics", topics);
@@ -48,7 +48,7 @@ public class MessageResource {
     public ResponseEntity<Map<String, String>> createTopic(@RequestBody TopicPayload topicPayload) {
         String topic = topicPayload.getTopic();
         logger.info("REST request to create a Topic: {}", topic);
-        messageService.createTopic(topic);
+        kafkaService.createTopic(topic);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("topic", topic);
         return new ResponseEntity<>(topicJson, HttpStatus.OK);
@@ -65,7 +65,7 @@ public class MessageResource {
         String topic = messagePayload.getTopic();
         String message = messagePayload.getMessage();
         logger.info("REST request to send a Message {} to a Topic {}", message, topic);
-        messageService.sendMessage(topic, message);
+        kafkaService.sendMessage(topic, message);
         HashMap<String, String> topicJson = new HashMap<>();
         topicJson.put("status", "success");
         return new ResponseEntity<>(topicJson, HttpStatus.OK);

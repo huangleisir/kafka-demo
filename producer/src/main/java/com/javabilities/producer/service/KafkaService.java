@@ -20,8 +20,8 @@ import javax.inject.Inject;
 import java.util.*;
 
 @Service
-public class MessageService {
-    private final Logger logger = LoggerFactory.getLogger(MessageService.class);
+public class KafkaService {
+    private final Logger logger = LoggerFactory.getLogger(KafkaService.class);
 
     @Inject
     private ZookeeperProperties zookeeperProperties;
