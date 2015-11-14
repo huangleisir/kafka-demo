@@ -1,39 +1,52 @@
-package com.javabilities.consumer;
+package com.javabilities.consumer.config;
 
+import com.javabilities.consumer.ConsumerApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.SourcePollingChannelAdapterSpec;
 import org.springframework.integration.dsl.kafka.Kafka;
 import org.springframework.integration.dsl.kafka.KafkaHighLevelConsumerMessageSourceSpec;
 import org.springframework.integration.dsl.support.Consumer;
+import org.springframework.integration.kafka.core.*;
 import org.springframework.integration.kafka.support.ZookeeperConnect;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.PollableChannel;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 @Configuration
-public class ConsumerConfiguration {
-    private final Logger log = LoggerFactory.getLogger(ConsumerApplication.class);
+public class KafkaConfig {
+    private final Logger logger = LoggerFactory.getLogger(ConsumerApplication.class);
 
     @Autowired
-    private KafkaConfig kafkaConfig;
+    private KafkaProperties kafkaProperties;
+
+    @Autowired
+    private ZookeeperProperties zookeeperProperties;
+
+    @Inject
+    ConfigurableApplicationContext context;
 
     @Bean
     IntegrationFlow consumer() {
-        log.info("starting consumer..");
+        logger.info("starting consumer..");
 
         KafkaHighLevelConsumerMessageSourceSpec messageSourceSpec = Kafka.inboundChannelAdapter(
-                new ZookeeperConnect(this.kafkaConfig.getZookeeperAddress()))
+                new ZookeeperConnect(zookeeperProperties.getZookeeperAddress()))
                 .consumerProperties(props ->
                         props.put("auto.offset.reset", "smallest")
                                 .put("auto.commit.interval.ms", "100"))
                 .addConsumer("myGroup", metadata -> metadata.consumerTimeout(100)
-                        .topicStreamMap(m -> m.put(this.kafkaConfig.getTopic(), 1))
+                        .topicStreamMap(m -> m.put("test", 1))
                         .maxMessages(10)
                         .valueDecoder(String::new));
 
@@ -42,7 +55,7 @@ public class ConsumerConfiguration {
         return IntegrationFlows
                 .from(messageSourceSpec, endpointConfigurer)
                 .<Map<String, List<String>>>handle((payload, headers) -> {
-                    payload.entrySet().forEach(e -> log.info(e.getKey() + '=' + e.getValue()));
+                    payload.entrySet().forEach(e -> logger.info(e.getKey() + '=' + e.getValue()));
                     return null;
                 })
                 .get();

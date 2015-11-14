@@ -42,4 +42,8 @@ public class ZookeeperProperties {
     public void setConnectionTimeoutMs(int connectionTimeoutMs) {
         this.connectionTimeoutMs = connectionTimeoutMs;
     }
+
+    public String getZookeeperAddress() {
+        return host + ":" + port;
+    }
 }
