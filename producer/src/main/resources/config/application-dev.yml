@@ -19,15 +19,3 @@ kafka:
   requestRequiredAcks: 1
   numPartitions: 1
   replicationFactor: 1
-
-topics:
-  - key: test
-    handlerName: test
-  - key: signalMetadata
-    handlerName: signalMetadata-ingest
-  - key: gatewayStatusMessage
-    handlerName: gatewayStatusMessage-ingest
-  - key: uplinkPayloadMetadata
-    handlerName: uplinkPayloadMetadata-ingest
-  - key: downlink
-    handlerName: downlink

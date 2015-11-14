@@ -38,37 +38,37 @@ public class KafkaConfig {
         return handler;
     }
 
-    @ServiceActivator(inputChannel = "signalMetadata-ingest")
+    @ServiceActivator(inputChannel = "topic-01")
     @Bean
-    public MessageHandler signalMetadataHandler() throws Exception {
-        String topic = "signalMetadata-ingest";
+    public MessageHandler topic01Handler() throws Exception {
+        String topic = "topic-01";
         KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(producerContext(topic));
         handler.setTopicExpression(new LiteralExpression(topic));
         return handler;
     }
 
-    @ServiceActivator(inputChannel = "gatewayStatusMessage-ingest")
+    @ServiceActivator(inputChannel = "topic-02")
     @Bean
-    public MessageHandler gatewayStatusMessageHandler() throws Exception {
-        String topic = "gatewayStatusMessage-ingest";
+    public MessageHandler topic02Handler() throws Exception {
+        String topic = "topic-02";
         KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(producerContext(topic));
         handler.setTopicExpression(new LiteralExpression(topic));
         return handler;
     }
 
-    @ServiceActivator(inputChannel = "uplinkPayloadMetadata-ingest")
+    @ServiceActivator(inputChannel = "topic-03")
     @Bean
-    public MessageHandler uplinkPayloadMetadataHandler() throws Exception {
-        String topic = "uplinkPayloadMetadata-ingest";
+    public MessageHandler topic03Handler() throws Exception {
+        String topic = "topic-03";
         KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(producerContext(topic));
         handler.setTopicExpression(new LiteralExpression(topic));
         return handler;
     }
 
-    @ServiceActivator(inputChannel = "downlink")
+    @ServiceActivator(inputChannel = "topic-04")
     @Bean
-    public MessageHandler downlinkHandler() throws Exception {
-        String topic = "downlink";
+    public MessageHandler topic04Handler() throws Exception {
+        String topic = "topic-04";
         KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(producerContext(topic));
         handler.setTopicExpression(new LiteralExpression(topic));
         return handler;

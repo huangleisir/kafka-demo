@@ -26,10 +26,10 @@ public class ProducerController {
         logger.info("Home Controller");
 
         kafkaService.sendMessage("test", "test message");
-        kafkaService.sendMessage("signalMetadata-ingest", "SignalMetadata message");
-        kafkaService.sendMessage("gatewayStatusMessage-ingest", "GatewayStatusMessage message");
-        kafkaService.sendMessage("uplinkPayloadMetadata-ingest", "UplinkPayloadMetadata message");
-        kafkaService.sendMessage("downlink", "Downlink message");
+        kafkaService.sendMessage("topic-01", "topic-01 message");
+        kafkaService.sendMessage("topic-02", "topic-02 message");
+        kafkaService.sendMessage("topic-03", "topic-03 message");
+        kafkaService.sendMessage("topic-04", "topic-04 message");
 
         return "index";
     }
