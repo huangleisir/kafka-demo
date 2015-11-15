@@ -7,17 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.integration.channel.QueueChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.SourcePollingChannelAdapterSpec;
 import org.springframework.integration.dsl.kafka.Kafka;
 import org.springframework.integration.dsl.kafka.KafkaHighLevelConsumerMessageSourceSpec;
 import org.springframework.integration.dsl.support.Consumer;
-import org.springframework.integration.kafka.core.*;
 import org.springframework.integration.kafka.support.ZookeeperConnect;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.PollableChannel;
 
 import javax.inject.Inject;
 import java.util.List;

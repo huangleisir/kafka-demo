@@ -20,15 +20,25 @@
                     <div class="col-md-12">
                         <div class="message-output row">
                             <div class="col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">topic-01 Topic Received Messages</h3>
+                                    </div>
+                                    <div class="panel-body topic-02-messages">
+                                        <div ng-repeat="message in main.t1Messages">
+                                            <p>{{t1Message.body}}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Test Topic</h3>
+                                        <h3 class="panel-title">topic-02 Topic Received Messages</h3>
                                     </div>
-                                    <div class="panel-body test-messages">
-                                        <div ng-repeat="message in main.testMessages">
-                                            <p>{{testMessage.body}}</p>
+                                    <div class="panel-body topic-02-messages">
+                                        <div ng-repeat="message in main.t2Messages">
+                                            <p>{{t2Message.body}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -39,11 +49,11 @@
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">signalMetadata-ingest Topic</h3>
+                                        <h3 class="panel-title">topic-03 Topic Received Messages</h3>
                                     </div>
-                                    <div class="panel-body sm-messages">
-                                        <div ng-repeat="message in main.smMessages">
-                                            <p>{{smMessage.body}}</p>
+                                    <div class="panel-body topic-03-messages">
+                                        <div ng-repeat="message in main.t3Messages">
+                                            <p>{{t3Message.body}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -51,38 +61,11 @@
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">gatewayStatusMessage-ingest Topic</h3>
+                                        <h3 class="panel-title">topic-04 Topic Received Messages</h3>
                                     </div>
-                                    <div class="panel-body gsm-messages">
-                                        <div ng-repeat="message in main.smMessages">
-                                            <p>{{gsmMessage.body}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="message-output row">
-                            <div class="col-md-6">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">uplinkPayloadMetadata-ingest Topic</h3>
-                                    </div>
-                                    <div class="panel-body upm-messages">
-                                        <div ng-repeat="message in main.upmMessages">
-                                            <p>{{upmMessage.body}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">downlink Topic</h3>
-                                    </div>
-                                    <div class="panel-body downlink-messages">
-                                        <div ng-repeat="message in main.upmMessages">
-                                            <p>{{downlinkMessage.body}}</p>
+                                    <div class="panel-body topic-04-messages">
+                                        <div ng-repeat="message in main.t4Messages">
+                                            <p>{{t4Message.body}}</p>
                                         </div>
                                     </div>
                                 </div>
