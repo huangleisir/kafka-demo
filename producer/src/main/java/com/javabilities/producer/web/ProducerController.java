@@ -25,11 +25,11 @@ public class ProducerController {
     public String home() {
         logger.info("Home Controller");
 
-        kafkaService.sendMessage("test", "test message");
-        kafkaService.sendMessage("topic-01", "topic-01 message");
-        kafkaService.sendMessage("topic-02", "topic-02 message");
-        kafkaService.sendMessage("topic-03", "topic-03 message");
-        kafkaService.sendMessage("topic-04", "topic-04 message");
+//        kafkaService.sendMessage("test", "test message");
+//        kafkaService.sendMessage("topic-01", "topic-01 message");
+//        kafkaService.sendMessage("topic-02", "topic-02 message");
+//        kafkaService.sendMessage("topic-03", "topic-03 message");
+//        kafkaService.sendMessage("topic-04", "topic-04 message");
 
         return "index";
     }

@@ -18,28 +18,69 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="uplink-input row">
+                        <div class="row">
                             <div class="col-md-6">
-                                <form role="form">
-                                    <div class="form-group">
-                                        <label for="uplinkMessage">Uplink Message</label>
-                                        <input type="uplinkMessage" class="form-control" id="uplinkMessage" ng-model="main.uplinkMessage"/>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Message to Send</h3>
                                     </div>
-                                    <!--<button type="submit" class="btn btn-primary">Send</button>-->
-                                    <a class="btn btn-primary" ng-click="main.sendMessage()">
-                                        <span>Send</span>
-                                    </a>
-                                </form>
+                                    <div class="message-input">
+                                        <form name="uplinkMessageForm" role="form">
+                                            <div class="form-group" name="uplinkMessageCheckboxes">
+                                                <label>Topics</label>
+                                                <div class="checkbox">
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" ng-model="main.topic01Checkbox"/>
+                                                        topic-01:
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" ng-model="main.topic02Checkbox"/>
+                                                        topic-02:
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" ng-model="main.topic03Checkbox"/>
+                                                        topic-03
+                                                    </label>
+                                                    <label class="checkbox-inline">
+                                                        <input type="checkbox" ng-model="main.topic04Checkbox"/>
+                                                        topic-04
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" name="uplinkMessageGroup">
+                                                <label for="uplinkMessage">Uplink Message</label>
+                                                <input type="uplinkMessage" name="uplinkMessage" class="form-control" id="uplinkMessage" ng-model="main.uplinkMessage"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <a class="btn btn-primary" ng-click="main.clearMessage()">
+                                                    <span>Clear</span>
+                                                </a>
+                                                <a class="btn btn-primary" ng-click="main.sendMessage()">
+                                                    <span>Send</span>
+                                                </a>
+                                            </div>
+                                            <div ng-messages="uplinkMessageForm.uplinkMessageGroup.uplinkMessage.$error" role="alert">
+                                                <div ng-message="required" class="alert alert-danger">Uplink Message is required!</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="message-output row">
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Uplink Messages</h3>
+                                        <h3 class="panel-title">topic-01 Sent Messages</h3>
                                     </div>
-                                    <div class="panel-body uplink-messages">
-                                        <div ng-repeat="message in main.uplinkMessages">
+                                    <div class="panel-body">
+                                        <div ng-repeat="message in main.topic01Messages">
                                             <p>{{message.body}}</p>
                                         </div>
                                     </div>
@@ -48,9 +89,38 @@
                             <div class="col-md-6">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Downlink Messages</h3>
+                                        <h3 class="panel-title">topic-02 Sent Messages</h3>
                                     </div>
-                                    <div class="panel-body downlink-messages">
+                                    <div class="panel-body">
+                                        <div ng-repeat="message in main.topic02Messages">
+                                            <p>{{message.body}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-output row">
+                            <div class="col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">topic-03 Sent Messages</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div ng-repeat="message in main.topic03Messages">
+                                            <p>{{message.body}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">topic-04 Sent Messages</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div ng-repeat="message in main.topic04Messages">
+                                            <p>{{message.body}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -61,6 +131,7 @@
         </div>
 
         <script src="../static/scripts/angular.js" th:src="@{scripts/angular.js}"/>
+        <script src="../static/scripts/angular-messages.js" th:src="@{scripts/angular-messages.js}"/>
         <script src="../static/scripts/ui-bootstrap-tpls-0.14.2.js" th:src="@{scripts/ui-bootstrap-tpls-0.14.2.js}"/>
         <script src="../static/scripts/producer-app.js" th:src="@{scripts/producer-app.js}"/>
     </body>

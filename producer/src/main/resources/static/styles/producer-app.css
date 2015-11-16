@@ -10,14 +10,17 @@ body {
     margin: 0 0 30px 10px;
 }
 
-.uplink-input {
-    padding: 10px 10px 30px 10px;
-    margin: 10px;
+.message-input {
+    padding: 10px 10px 10px 10px;
+}
+
+.message-input .form-group {
+    padding-bottom: 5px;
 }
 
 .message-output {
-    padding: 10px;
-    margin: 10px;
+    /*padding: 10px;*/
+    /*margin: 10px;*/
 }
 
 .panel-body {
