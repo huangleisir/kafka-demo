@@ -18,40 +18,30 @@ consumerModule.factory('ConsumerHelper', function() {
 
 consumerModule.service('ConsumerModel', function() {
     var service = this,
-        testMessages = [
-            //{body: 'first test message'}
-        ],
-        t1Messages = [
+        topic01Messages = [
             //{body: 'first topic-01 message'}
         ],
-        t2Messages = [
+        topic02Messages = [
             //{body: 'first topic-02 message'}
         ],
-        t3Messages = [
+        topic03Messages = [
             //{body: 'first topic-03 message'}
         ],
-        t4Messages = [
+        topic04Messages = [
             //{body: 'first topic-04 message'}
         ];
 
-    service.getTestMessages = function() {
-        return testMessages;
+    service.getTopic01Messages = function() {
+        return topic01Messages;
     };
-
-    service.getT1Messages = function() {
-        return t1Messages;
+    service.getTopic02Messages = function() {
+        return topic02Messages;
     };
-
-    service.getT2Messages = function() {
-        return t2Messages;
+    service.getTopic03Messages = function() {
+        return topic03Messages;
     };
-
-    service.getT3Messages = function() {
-        return t3Messages;
-    };
-
-    service.getT4Messages = function() {
-        return t4Messages;
+    service.getTopic04Messages = function() {
+        return topic04Messages;
     };
 });
 
@@ -63,11 +53,10 @@ consumerModule.service('ListenService', function($q, $timeout) {
 
     service.RECONNECT_TIMEOUT = 30000;
     service.SOCKET_URL = "/spring-ng-chat/chat";
-    service.TEST_TOPIC = "/topic/message/test";
-    service.T1_TOPIC = "/topic/message/topic-01";
-    service.T2_TOPIC = "/topic/message/topic-02";
-    service.T3_TOPIC = "/topic/message/topic-03";
-    service.T4_TOPIC = "/topic/message/topic-04";
+    service.TOPIC_01 = "/topic/message/topic-01";
+    service.TOPIC_02 = "/topic/message/topic-02";
+    service.TOPIC_03 = "/topic/message/topic-03";
+    service.TOPIC_04 = "/topic/message/topic-04";
     service.CHAT_BROKER = "/app/chat";
 
     service.receive = function() {
@@ -91,28 +80,23 @@ consumerModule.service('ListenService', function($q, $timeout) {
         return out;
     };
 
-    var startTestListener = function() {
-        socket.stomp.subscribe(service.TEST_TOPIC, function(data) {
+    var startTopic01Listener = function() {
+        socket.stomp.subscribe(service.TOPIC_01, function(data) {
             listener.notify(getMessage(data.body));
         });
     };
-    var startT1Listener = function() {
-        socket.stomp.subscribe(service.T1_TOPIC, function(data) {
+    var startTopic02Listener = function() {
+        socket.stomp.subscribe(service.TOPIC_02, function(data) {
             listener.notify(getMessage(data.body));
         });
     };
-    var startT2Listener = function() {
-        socket.stomp.subscribe(service.T2_TOPIC, function(data) {
+    var startTopic03Listener = function() {
+        socket.stomp.subscribe(service.TOPIC_03, function(data) {
             listener.notify(getMessage(data.body));
         });
     };
-    var startT3Listener = function() {
-        socket.stomp.subscribe(service.T3_TOPIC, function(data) {
-            listener.notify(getMessage(data.body));
-        });
-    };
-    var startT4Listener = function() {
-        socket.stomp.subscribe(service.T4_TOPIC, function(data) {
+    var startTopic04Listener = function() {
+        socket.stomp.subscribe(service.TOPIC_04, function(data) {
             listener.notify(getMessage(data.body));
         });
     };
@@ -120,7 +104,7 @@ consumerModule.service('ListenService', function($q, $timeout) {
     var initialize = function() {
         socket.client = new SockJS(service.SOCKET_URL);
         socket.stomp = Stomp.over(socket.client);
-        socket.stomp.connect({}, startTestListener);
+        socket.stomp.connect({}, startTopic01Listener);
         socket.stomp.onclose = reconnect;
     };
 
@@ -131,67 +115,55 @@ consumerModule.service('ListenService', function($q, $timeout) {
 consumerModule.controller('MainCtrl', function(ConsumerModel, ConsumerHelper, $http) {
     var main = this;
 
-    main.testMessages = ConsumerModel.getTestMessages();
-    main.t1Messages = ConsumerModel.getT1Messages();
-    main.t2Messages = ConsumerModel.getT2Messages();
-    main.t3Messages = ConsumerModel.getT3Messages();
-    main.t4Messages = ConsumerModel.getT4Messages();
+    main.topic01Messages = ConsumerModel.getTopic01Messages();
+    main.topic02Messages = ConsumerModel.getTopic02Messages();
+    main.topic03Messages = ConsumerModel.getTopic03Messages();
+    main.topic04Messages = ConsumerModel.getTopic04Messages();
 
-    main.testMessagesIndex = ConsumerModel.buildIndex(main.testMessages, 'body');
-    main.t1MessagesIndex = ConsumerModel.buildIndex(main.t1Messages, 'body');
-    main.t2MessagesIndex = ConsumerModel.buildIndex(main.t2Messages, 'body');
-    main.t3MessagesIndex = ConsumerModel.buildIndex(main.t3Messages, 'body');
-    main.t4MessagesIndex = ConsumerModel.buildIndex(main.t4Messages, 'body');
+    main.topic01MessagesIndex = ConsumerModel.buildIndex(main.topic01Messages, 'body');
+    main.topic02MessagesIndex = ConsumerModel.buildIndex(main.topic02Messages, 'body');
+    main.topic03MessagesIndex = ConsumerModel.buildIndex(main.topic03Messages, 'body');
+    main.topic04MessagesIndex = ConsumerModel.buildIndex(main.topic04Messages, 'body');
 
-    main.setTestMessage = function(testMessage) {
-        main.testMessage = testMessage;
+    main.setTopic01Message = function(topic01Message) {
+        main.topic01Message = topic01Message;
     };
-    main.setT1Message = function(t1Message) {
-        main.t1Message = t1Message;
+    main.setTopic02Message = function(topic02Message) {
+        main.topic02Message = topic02Message;
     };
-    main.setT2Message = function(t2Message) {
-        main.t2Message = t2Message;
+    main.setTopic03Message = function(topic03Message) {
+        main.topic03Message = topic03Message;
     };
-    main.setT3Message = function(t3Message) {
-        main.t3Message = t3Message;
-    };
-    main.setT4Message = function(t4Message) {
-        main.t4Message = t4Message;
+    main.setTopic04Message = function(topic04Message) {
+        main.topic04Message = topic04Message;
     };
 
-    main.sendTestMessage = function() {
-        console.log('sendTestMessage');
-        $http.post('/rest/api/v1/messages', {topic:'test', message:main.testMessage});
-        main.testMessages.push({
-            body: main.testMessage
-        });
-    };
-    main.sendT1Message = function() {
-        console.log('sendT1Message');
-        $http.post('/rest/api/v1/messages', {topic:'topic-01', message:main.t1Message});
-        main.uplinkMessages.push({
-            body: main.uplinkMessage
+    main.sendTopic01Message = function() {
+        console.log('sendTopic01Message');
+        $http.post('/rest/api/v1/messages', {topic:'topic-01', message:main.topic01Message});
+        main.topic01Messages.push({
+            body: main.topic01Message
         });
     };
     main.sendT2Message = function() {
-        console.log('sendT2Message');
-        $http.post('/rest/api/v1/messages', {topic:'topic-02', message:main.t2Message});
-        main.t2Messages.push({
-            body: main.t2Message
+        console.log('sendTopic02Message');
+        $http.post('/rest/api/v1/messages', {topic:'topic-02', message:main.topic02Message});
+        main.topic02Messages.push({
+            body: main.topic02Message
         });
     };
-    main.sendT3Message = function() {
-        console.log('sendT3Message');
-        $http.post('/rest/api/v1/messages', {topic:'topic-03', message:main.t3Message});
-        main.t3Messages.push({
-            body: main.t3Message
+    main.sendTopic03Message = function() {
+        console.log('sendTopic03Message');
+        $http.post('/rest/api/v1/messages', {topic:'topic-03', message:main.topic03Message});
+        main.topic03Messages.push({
+            body: main.topic03Message
         });
     };
     main.sendT4Message = function() {
         console.log('sendT4Message');
-        $http.post('/rest/api/v1/messages', {topic:'topic-04', message:main.t4Message});
-        main.t4Messages.push({
-            body: main.t4Message
+        $http.post('/rest/api/v1/messages', {topic:'topic-04', message:main.topic04Message});
+        main.topic04Messages.push({
+            body: main.topic04Message
         });
     };
 });
