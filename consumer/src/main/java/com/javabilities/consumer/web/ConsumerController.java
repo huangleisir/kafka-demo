@@ -2,16 +2,12 @@ package com.javabilities.consumer.web;
 
 import com.javabilities.consumer.config.KafkaProperties;
 import com.javabilities.consumer.config.ZookeeperProperties;
-import com.javabilities.consumer.domain.Shout;
 import com.javabilities.consumer.domain.UplinkMessage;
 import com.javabilities.consumer.service.KafkaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.PollableChannel;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,18 +55,6 @@ public class ConsumerController {
     public String tempHome() {
         return "home";
     }
-
-//    @MessageMapping("/marco")
-//    public Shout handleShout(Shout incoming) {
-//        logger.info("Received message: " + incoming.getMessage());
-//
-//        try { Thread.sleep(2000); } catch (InterruptedException e) {}
-//
-//        Shout outgoing = new Shout();
-//        outgoing.setMessage("Polo!");
-//
-//        return outgoing;
-//    }
 
     @MessageMapping("/kafka")
     public UplinkMessage handleKafka(UplinkMessage incoming) {
