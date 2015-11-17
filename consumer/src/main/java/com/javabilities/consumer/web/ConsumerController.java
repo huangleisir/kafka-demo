@@ -2,6 +2,7 @@ package com.javabilities.consumer.web;
 
 import com.javabilities.consumer.config.KafkaProperties;
 import com.javabilities.consumer.config.ZookeeperProperties;
+import com.javabilities.consumer.domain.Shout;
 import com.javabilities.consumer.domain.UplinkMessage;
 import com.javabilities.consumer.service.KafkaService;
 import org.slf4j.Logger;
@@ -29,20 +30,11 @@ public class ConsumerController {
     @Inject
     KafkaService kafkaService;
 
-
-
-
     @Autowired
     ZookeeperProperties zookeeperProperties;
 
     @Autowired
     KafkaProperties kafkaProperties;
-
-    @Value("${consumer.topic}")
-    private String topic;
-
-
-
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home() {
@@ -50,22 +42,40 @@ public class ConsumerController {
         logger.debug("zookeeperPort: {}", zookeeperProperties.getPort());
         logger.debug("kafkaHost: {}", kafkaProperties.getHost());
         logger.debug("kafkaPort: {}", kafkaProperties.getPort());
-        logger.debug("topic: {}", topic);
 
-        PollableChannel fromKafka = context.getBean("received", PollableChannel.class);
-        Message<?> received = fromKafka.receive(10000);
-        while (received != null) {
-            System.out.println(received);
-            logger.debug("Headers: " + received.getHeaders());
-            logger.debug("Payload: " + received.getPayload());
-            received = fromKafka.receive(10000);
-        }
+//        PollableChannel fromKafka = context.getBean("received", PollableChannel.class);
+//        Message<?> received = fromKafka.receive(10000);
+//        while (received != null) {
+//            System.out.println(received);
+//            logger.debug("Headers: " + received.getHeaders());
+//            logger.debug("Payload: " + received.getPayload());
+//            received = fromKafka.receive(10000);
+//        }
 
         return "index";
     }
 
+    @RequestMapping(value="/home", method=RequestMethod.GET)
+    public String tempHome() {
+        return "home";
+    }
+
+//    @MessageMapping("/marco")
+//    public Shout handleShout(Shout incoming) {
+//        logger.info("Received message: " + incoming.getMessage());
+//
+//        try { Thread.sleep(2000); } catch (InterruptedException e) {}
+//
+//        Shout outgoing = new Shout();
+//        outgoing.setMessage("Polo!");
+//
+//        return outgoing;
+//    }
+
     @MessageMapping("/kafka")
-    public UplinkMessage handle(UplinkMessage message) {
-        return message;
+    public UplinkMessage handleKafka(UplinkMessage incoming) {
+        logger.info("Received message: " + incoming.getMessage());
+
+        return incoming;
     }
 }
