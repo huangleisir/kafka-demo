@@ -29,15 +29,6 @@ public class KafkaConfig {
     @Autowired
     KafkaProperties kafkaProperties;
 
-    @ServiceActivator(inputChannel = "test")
-    @Bean
-    public MessageHandler testHandler() throws Exception {
-        String topic = "test";
-        KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(producerContext(topic));
-        handler.setTopicExpression(new LiteralExpression(topic));
-        return handler;
-    }
-
     @ServiceActivator(inputChannel = "topic-01")
     @Bean
     public MessageHandler topic01Handler() throws Exception {
